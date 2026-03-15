@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<WorldLoadingScreens>
+<!--This first section is a constructor; do NOT type anything in here!-->
+  <World>
+    <WorldName>
+      <!--The full name of the world as it appears in-game-->
+    </WorldName>
+    <LoadScreenResourceName>
+      <!--The name of the IMAG resource you wish to use as the world's loading screen-->
+    </LoadScreenResourceName>
+  </World>
+<!--Begin custom loading screen data below-->
+  <World>
+    <WorldName></WorldName>
+    <LoadScreenResourceName></LoadScreenResourceName>
+  </World>
+</WorldLoadingScreens>
