@@ -150,6 +150,17 @@ namespace NRaas
             }            
 
             UpdateAgeForeign();
+            if (GameStates.IsTravelling && !GameStates.TravellingHome)
+            {
+                if (!Sims3.Gameplay.Gameflow.sGameLoadedFromWorldFile && !LoadingScreenControllerEx.sVacationWorldNames.Contains(GameStates.DestinationTravelWorld))
+                {
+                    float time = SimClock.HoursUntil(SimClockUtils.kInitialTimeOfDay);
+                    long num = SimClock.ConvertToTicks(time, TimeUnit.Hours);
+                    SimClock.TicksAdvanced += num;
+                    AlarmManager.FixLoadAlarms(SimClock.CurrentTicks + num);
+                    return;
+                }
+            }
 
             if (GameUtils.IsUniversityWorld())
             {

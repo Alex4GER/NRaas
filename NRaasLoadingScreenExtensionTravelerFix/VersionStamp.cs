@@ -10,7 +10,7 @@ namespace NRaas
     {
         public static readonly string sNamespace = "NRaas.LoadingScreenExtensionTravelerFix";
 
-        public static readonly int sVersion = 3;
+        public static readonly int sVersion = 4;
 
         public static void ResetSettings()
         { }

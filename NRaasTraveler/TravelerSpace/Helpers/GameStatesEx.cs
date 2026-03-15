@@ -56,13 +56,25 @@ namespace NRaas.TravelerSpace.Helpers
                 GameUtils.EnableSceneDraw(false);
                 if (GameStates.DestinationTravelWorld != WorldName.Undefined)
                 {
-                    string travelWorldName = Sims3.Gameplay.UI.Responder.Instance.HudModel.LocationName(GameStates.DestinationTravelWorld, true);
+                    string travelWorldName;
                     if (isReturningHome)
                     {
                         travelWorldName = GameStates.sTravelData.mHomeWorld;
                     }
+                    else
+                    {
+                        if (LoadingScreenControllerEx.sVacationWorldNames.Contains(GameStates.DestinationTravelWorld))
+                        {   /* Get full name string for one of the default vacation worlds. */
+                            travelWorldName = Sims3.Gameplay.UI.Responder.Instance.HudModel.LocationName(GameStates.DestinationTravelWorld, true);
+                        }
+                        else
+                        {   /* Get the right name string for any other world */
+                            travelWorldName = WorldData.GetLocationName(GameStates.DestinationTravelWorld);
+                        }
+                    }
                     bool isFirstTimeTravelingToFuture = (GameStates.DestinationTravelWorld == WorldName.FutureWorld) && ((CauseEffectService.GetInstance() != null) && (CauseEffectService.GetInstance().GetTimesTraveledToFuture() == 0));
-                    LoadingScreenController.LoadTravellingLoadingScreen(travelWorldName, GameStates.DestinationTravelWorld, isReturningHome, isFirstTimeTravelingToFuture);
+                    /* Call the modified method instead of the original */
+                    LoadingScreenControllerEx.LoadTravellingLoadingScreen(travelWorldName, GameStates.DestinationTravelWorld, isReturningHome, isFirstTimeTravelingToFuture);
                 }
                 SpeedTrap.Sleep(0);
             }

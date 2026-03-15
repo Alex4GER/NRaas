@@ -1,7 +1,7 @@
 ﻿extern alias SP;
 
 using WorldData = SP::NRaas.TravelerSpace.Helpers.WorldData;
-using System.Collections.Generic;
+using LoadingScreenControllerEx = SP::NRaas.TravelerSpace.Helpers.LoadingScreenControllerEx;
 using Sims3.SimIFace;
 using Sims3.Gameplay;
 using Sims3.UI;
@@ -22,15 +22,6 @@ namespace NRaas.LoadingScreenExtensionSpace.Helpers
             text = text.ToLower();
         }
 
-        public static readonly List<WorldName> VacationWorldNames = new List<WorldName>
-        {
-            WorldName.China,
-            WorldName.Egypt,
-            WorldName.France,
-            WorldName.University,
-            WorldName.FutureWorld
-        };
-
         private static void OnLoadingScreenInstanceCreated(LoadingScreenController controller)
         {
             if (!GameStates.IsTravelling) return;
@@ -38,16 +29,10 @@ namespace NRaas.LoadingScreenExtensionSpace.Helpers
 
             WorldName worldName = GameStates.DestinationTravelWorld;
 
-            if (VacationWorldNames.Contains(worldName)) return;
+            if (LoadingScreenControllerEx.sVacationWorldNames.Contains(worldName)) return;
 
-            FixBackgroundLoop();
             FixCaption(WorldData.GetLocationName(worldName));
             FixLoadingScreenImage(controller, worldName);
-        }
-
-        private static void FixBackgroundLoop()
-        {
-            Responder.Instance.HudModel.PlayLoadLoopAudio(WorldName.Undefined);
         }
 
         private static void FixCaption(string worldLocationName)
@@ -60,7 +45,7 @@ namespace NRaas.LoadingScreenExtensionSpace.Helpers
                 worldLocationName
             });
         }
-
+        
         private static void FixLoadingScreenImage(LoadingScreenController controller, WorldName worldName)
         {
             string screenImageResourceName = string.Empty;
