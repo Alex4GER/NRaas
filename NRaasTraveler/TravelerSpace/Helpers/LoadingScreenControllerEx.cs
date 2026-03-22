@@ -87,6 +87,16 @@ namespace NRaas.TravelerSpace.Helpers
 		
 		public static void HandleScreen()
 		{
+			while (LoadingScreenController.Instance == null && !LoadingScreenController.IsLayoutLoaded())
+			{
+				Common.Sleep();
+			}
+
+			if (LoadingScreenController.sChosenLoadScreen != -1)
+			{
+				return;
+			}
+
 			string worldNameStr;
 			string lastActiveLotName = string.Empty;
 			string lastFocusedLotName = string.Empty;
@@ -384,12 +394,7 @@ namespace NRaas.TravelerSpace.Helpers
 				}
 			}
 			
-			while (LoadingScreenController.Instance == null && !LoadingScreenController.IsLayoutLoaded())
-			{
-				Common.Sleep();
-			}
-			
-			if (LoadingScreenController.sChosenLoadScreen == -1 && screenImage != null)
+			if (screenImage != null)
 			{
 				(LoadingScreenController.Instance.Drawable as ImageDrawable).Image = screenImage;
 				LoadingScreenController.Instance.Invalidate();
