@@ -179,6 +179,15 @@ namespace NRaas.TravelerSpace.States
 
                 msg += Common.NewLine + "FileName: " + GameStates.LoadFileName;
                 Traveler.InsanityWriteLog(msg);
+
+                try
+                {
+                    LoadingScreenControllerEx.HandleScreen();
+                }
+                catch (Exception exception)
+                {
+                    Common.Exception("", exception);
+                }
             }
             catch (Exception e)
             {

@@ -44,7 +44,7 @@ namespace NRaas.TravelerSpace
 
         [Tunable, TunableComment("Whether to perform progression travel actions when updating a vacation world")]
         protected static bool kPerformTravelActions = true;
-     
+
         [Tunable, TunableComment("Whether to store vehicles parked on residential lots prior to returning home")]
         protected static bool kStoreVehicles = true;
 
@@ -53,6 +53,9 @@ namespace NRaas.TravelerSpace
 
         [Tunable, TunableComment("Whether to set inactive travelers as unselectable upon arrival on vacation")]
         protected static bool kSetAsUnselectable = false;
+
+        [Tunable, TunableComment("Whether to show the active household lot or the last active lot when loading a save")]
+        public static LoadingScreenControllerEx.LoadingImageType kLoadscreenImageType = LoadingScreenControllerEx.LoadingImageType.LastFocusedLot;
 
         [Tunable, TunableComment("Whether to disable the generate of decendants and stop the llama messages")]
         public static bool kDisableDescedants = false;
@@ -100,6 +103,12 @@ namespace NRaas.TravelerSpace
         public Dictionary<WorldName, bool> mHiddenWorlds = new Dictionary<WorldName, bool>();
 
         public bool mSetAsUnselectable = kSetAsUnselectable;
+
+        public LoadingScreenControllerEx.LoadingImageType mLoadScreenImageType = kLoadscreenImageType;
+
+        public string mLastFocusedLot = "";
+
+        public string mLastActiveLot = "";
 
         public bool mDisableDescendants = kDisableDescedants;
 
@@ -154,20 +163,20 @@ namespace NRaas.TravelerSpace
 
             if (!mWorldForSims.ContainsKey(desc.SimDescriptionId)) return WorldName.Undefined;
 
-                string world = mWorldForSims[desc.SimDescriptionId];
+            string world = mWorldForSims[desc.SimDescriptionId];
 
-                string name = world.Replace(".world", "");
+            string name = world.Replace(".world", "");
 
-                WorldName worldName = WorldName.Undefined;
+            WorldName worldName = WorldName.Undefined;
 
-                try
-                {
-                    worldName = unchecked((WorldName)ResourceUtils.HashString32(name.Replace(" ", "")));
-                }
-                catch
-                {                    
+            try
+            {
+                worldName = unchecked((WorldName)ResourceUtils.HashString32(name.Replace(" ", "")));
+            }
+            catch
+            {
                 return WorldName.Undefined;
-                }                
+            }
 
             return worldName;
         }
@@ -178,7 +187,7 @@ namespace NRaas.TravelerSpace
             if (name != WorldName.Undefined)
             {
                 return mAgelessForeign.ContainsKey(name);
-            }            
+            }
 
             return true;
         }

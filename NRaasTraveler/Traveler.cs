@@ -7,6 +7,7 @@ using Sims3.Gameplay;
 using Sims3.Gameplay.Abstracts;
 using Sims3.Gameplay.Actors;
 using Sims3.Gameplay.CAS;
+using Sims3.Gameplay.Core;
 using Sims3.Gameplay.Interfaces;
 using Sims3.Gameplay.Skills;
 using Sims3.Gameplay.TimeTravel;
@@ -32,7 +33,7 @@ namespace NRaas
         public static bool kForceInsanity = false;
     }
 
-    public class Traveler : Common, Common.IStartupApp, Common.IPreLoad, Common.IWorldLoadFinished, Common.IDelayedWorldLoadFinished
+    public class Traveler : Common, Common.IStartupApp, Common.IPreLoad, Common.IWorldLoadFinished, Common.IDelayedWorldLoadFinished, Common.IPreSave
     {
         [Tunable, TunableComment("Scripting Mod Instantiator, value does not matter, only its existence")]
         protected static bool kInstantiator = false;
@@ -150,11 +151,36 @@ namespace NRaas
             }            
 
             UpdateAgeForeign();
+            if (GameStates.IsTravelling && !GameStates.TravellingHome)
+            {
+                if (!Sims3.Gameplay.Gameflow.sGameLoadedFromWorldFile && !LoadingScreenControllerEx.sVacationWorldNames.Contains(GameStates.DestinationTravelWorld))
+                {
+                    float time = SimClock.HoursUntil(SimClockUtils.kInitialTimeOfDay);
+                    long num = SimClock.ConvertToTicks(time, TimeUnit.Hours);
+                    SimClock.TicksAdvanced += num;
+                    AlarmManager.FixLoadAlarms(SimClock.CurrentTicks + num);
+                    return;
+                }
+            }
 
             if (GameUtils.IsUniversityWorld())
             {
                 AnnexEx.OnWorldLoadFinished();
             }            
+        }
+        
+        public void OnPreSave()
+        {
+        	Settings.mLastFocusedLot = string.Empty;
+        	Settings.mLastActiveLot = string.Empty;
+        	if (LotManager.FocusLot != null && Settings.mLoadScreenImageType == LoadingScreenControllerEx.LoadingImageType.LastFocusedLot)
+        	{
+        		Settings.mLastFocusedLot = LotManager.FocusLot.Name;
+        	}
+        	if (Household.ActiveHouseholdLot != null && Settings.mLoadScreenImageType == LoadingScreenControllerEx.LoadingImageType.LastActiveHousehold)
+        	{
+        		Settings.mLastActiveLot = Household.ActiveHouseholdLot.Name;
+        	}
         }
 
         public static PersistedSettings Settings
