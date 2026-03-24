@@ -36,6 +36,8 @@ namespace NRaas.MasterControllerSpace.Sims.Advanced.Pregnancy
         {
             if (!base.PrivateAllow(me)) return false;
 
+            if (me.CreatedSim == null) return false;
+
             return (me.IsPregnant);
         }
 
