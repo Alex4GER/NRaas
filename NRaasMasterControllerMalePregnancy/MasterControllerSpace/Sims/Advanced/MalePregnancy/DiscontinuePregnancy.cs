@@ -1,17 +1,8 @@
-﻿using Sims3.Gameplay;
-using Sims3.Gameplay.Abstracts;
-using Sims3.Gameplay.Actors;
+﻿using NRaas.MasterControllerSpace.Helpers;
 using Sims3.Gameplay.ActorSystems;
-using Sims3.Gameplay.Autonomy;
 using Sims3.Gameplay.CAS;
-using Sims3.Gameplay.Core;
-using Sims3.Gameplay.Interactions;
-using Sims3.Gameplay.Utilities;
-using Sims3.SimIFace;
 using Sims3.UI;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace NRaas.MasterControllerSpace.Sims.Advanced.MalePregnancy
 {
@@ -40,14 +31,14 @@ namespace NRaas.MasterControllerSpace.Sims.Advanced.MalePregnancy
 
             if (me.IsPregnant) return false;
 
-            if (me.IsHuman && me.IsMale && me.IsVisuallyPregnant)
+            if (me.IsHuman && me.IsMale)
             {
                 if (me.CreatedSim.BuffManager.HasElement(BuffNames.MalePregnancy))
                 {
                     BuffInstance buffInstance = me.CreatedSim.BuffManager.GetElement(BuffNames.MalePregnancy);
                     return buffInstance.TimeoutCount > 1f;
                 }
-                else if (me.IsWearingMaternityOutfit())
+                if (me.IsVisuallyPregnant)
                 {
                     return true;
                 }
@@ -66,15 +57,15 @@ namespace NRaas.MasterControllerSpace.Sims.Advanced.MalePregnancy
                 }
             }
 
+            if (me.CreatedSim.BuffManager.HasElement(BuffNames.MalePregnancy))
+            {
+                me.CreatedSim.BuffManager.RemoveElement(BuffNames.MalePregnancy);
+            }
             if (me.IsVisuallyPregnant)
             {
-                if (me.CreatedSim.BuffManager.HasElement(BuffNames.MalePregnancy))
-                {
-                    me.CreatedSim.BuffManager.RemoveElement(BuffNames.MalePregnancy);
-                }
-                me.SetPregnancy(0.0f);
-                Common.Notify(Common.Localize(GetTitlePrefix() + ":Success", me.IsFemale, new object[] { me }));
+                BuffMalePregnancyEx.SetPregnancy(me, 0f);
             }
+            Common.Notify(Common.Localize(GetTitlePrefix() + ":Success", me.IsFemale, new object[] { me }));
             return true;
         }
     }

@@ -1,19 +1,7 @@
-﻿using NRaas.MasterControllerSpace.Helpers;
-using Sims3.Gameplay;
-using Sims3.Gameplay.Abstracts;
-using Sims3.Gameplay.Actors;
-using Sims3.Gameplay.ActorSystems;
-using Sims3.Gameplay.Autonomy;
+﻿using Sims3.Gameplay.ActorSystems;
 using Sims3.Gameplay.CAS;
-using Sims3.Gameplay.Core;
-using Sims3.Gameplay.Interactions;
-using Sims3.Gameplay.Skills;
-using Sims3.Gameplay.Utilities;
 using Sims3.SimIFace;
-using Sims3.UI;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace NRaas.MasterControllerSpace.Sims.Advanced.MalePregnancy
 {
@@ -42,16 +30,16 @@ namespace NRaas.MasterControllerSpace.Sims.Advanced.MalePregnancy
 
             if (me.IsPregnant) return false;
 
-            if (me.IsHuman && me.IsMale && me.IsVisuallyPregnant)
+            if (me.IsHuman && me.IsMale)
             {
                 if (me.CreatedSim.BuffManager.HasElement(BuffNames.MalePregnancy))
                 {
                     BuffInstance buffInstance = me.CreatedSim.BuffManager.GetElement(BuffNames.MalePregnancy);
                     return buffInstance.mTimeoutPaused && buffInstance.TimeoutCount > 1f;
                 }
-                else if (me.IsWearingMaternityOutfit())
+                if (me.IsVisuallyPregnant)
                 {
-                	return GameUtils.IsInstalled(ProductVersion.EP8);
+                    return GameUtils.IsInstalled(ProductVersion.EP8);
                 }
             }
 
@@ -60,16 +48,13 @@ namespace NRaas.MasterControllerSpace.Sims.Advanced.MalePregnancy
 
         protected override bool Run(SimDescription me, bool singleSelection)
         {
-            if (me.IsVisuallyPregnant)
+            if (me.CreatedSim.BuffManager.HasElement(BuffNames.MalePregnancy))
             {
-                if (me.CreatedSim.BuffManager.HasElement(BuffNames.MalePregnancy))
-                {
-                    me.CreatedSim.BuffManager.UnpauseBuff(BuffNames.MalePregnancy);
-                }
-                else
-                {
-                    BuffMalePregnancyEx.AddBuff(me.CreatedSim, Origin.FromPregnancy);
-                }
+                me.CreatedSim.BuffManager.UnpauseBuff(BuffNames.MalePregnancy);
+            }
+            else
+            {
+                me.CreatedSim.BuffManager.AddElement(BuffNames.MalePregnancy, Origin.FromPregnancy);
             }
 
             return true;

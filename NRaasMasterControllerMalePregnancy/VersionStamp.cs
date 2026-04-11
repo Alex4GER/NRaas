@@ -11,6 +11,6 @@ namespace NRaas
     {
         public static readonly string sNamespace = "NRaas.MasterControllerMalePregnancy";
 
-        public static readonly int sVersion = 1;
+        public static readonly int sVersion = 2;
     }
 }
