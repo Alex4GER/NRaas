@@ -1467,9 +1467,16 @@ namespace NRaas.TravelerSpace.Helpers
             {
                 PersistStatic.MainMenuLoading = false;
                 WorldName worldName = GameStates.DestinationEditWorld;
-                bool travelingHome;
+
+                msg += "A";
+                Traveler.InsanityWriteLog(msg);
+
+                bool travelingHome = true;
                 if (GameStates.sEditOtherWorldData.mState == GameStates.EditOtherWorldData.EditOtherWorldState.ReturnToLiveMode)
                 {
+                    msg += "A1";
+                    Traveler.InsanityWriteLog(msg);
+
                     worldName = GameStates.sEditOtherWorldData.mOrigWorld;
 
                     // Custom
@@ -1478,22 +1485,21 @@ namespace NRaas.TravelerSpace.Helpers
                     {
                         travelingHome = saveFile == GameStates.sEditOtherWorldData.mHomeWorldName;
                     }
-                    else
-                    {
-                        travelingHome = true;
-                    }
                 }
                 else
                 {
+                    msg += "A2";
+                    Traveler.InsanityWriteLog(msg);
+
                     // Custom
                     travelingHome = worldName == WorldName.Undefined;
                 }
 
-                msg += "A";
-                Traveler.InsanityWriteLog(msg);
-
                 if (GameStates.sTravelData != null && GameStates.sTravelData.mEarlyDepartures != null)
                 {
+                    msg += "A3";
+                    Traveler.InsanityWriteLog(msg);
+
                     List<Sim> list = new List<Sim>();
                     int num = 0;
                     while (GameStates.sTravelData.mEarlyDepartures.Count > num)
@@ -1510,7 +1516,7 @@ namespace NRaas.TravelerSpace.Helpers
                             num++;
                         }
                     }
-                    Simulator.Sleep(0u);
+                    Common.Sleep();
                     foreach (Sim current in list)
                     {
                         GameStates.sTravelData.mEarlyDepartures.Add(current);
@@ -1536,7 +1542,7 @@ namespace NRaas.TravelerSpace.Helpers
                     LoadingScreenControllerEx.LoadTravellingLoadingScreen(text, worldName, travelingHome, false);
                 }
 
-                Simulator.Sleep(0u);
+                Common.Sleep();
                 CameraController.DisableObjectFollow();
 
                 msg += "C";
