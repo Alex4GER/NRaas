@@ -1455,7 +1455,7 @@ namespace NRaas.TravelerSpace.Helpers
             {
                 GameStates.sEditOtherWorldData.mState = GameStates.EditOtherWorldData.EditOtherWorldState.ReturnToLiveMode;
             }
-            Common.FunctionTask.Perform(new Sims3.Gameplay.Function(GameStatesEx.EditOtherTownSwitchWorlds));
+            Common.FunctionTask.Perform(EditOtherTownSwitchWorlds);
         }
 
         private static void EditOtherTownSwitchWorlds()
@@ -1471,6 +1471,8 @@ namespace NRaas.TravelerSpace.Helpers
                 if (GameStates.sEditOtherWorldData.mState == GameStates.EditOtherWorldData.EditOtherWorldState.ReturnToLiveMode)
                 {
                     worldName = GameStates.sEditOtherWorldData.mOrigWorld;
+
+                    // Custom
                     string saveFile;
                     if (WorldData.GetSaveFileName(worldName, out saveFile, true))
                     {
@@ -1483,6 +1485,7 @@ namespace NRaas.TravelerSpace.Helpers
                 }
                 else
                 {
+                    // Custom
                     travelingHome = worldName == WorldName.Undefined;
                 }
 
@@ -1520,6 +1523,8 @@ namespace NRaas.TravelerSpace.Helpers
 
                 GameStates.EnsureNoModalDialogsUp();
                 GameUtils.EnableSceneDraw(false);
+
+                // Custom
                 if (LoadingScreenControllerEx.sVacationWorldNames.Contains(worldName))
                 {
                     string text = Sims3.Gameplay.UI.Responder.Instance.HudModel.LocationName(worldName, true);
@@ -1530,12 +1535,14 @@ namespace NRaas.TravelerSpace.Helpers
                     string text = WorldData.GetLocationName(worldName);
                     LoadingScreenControllerEx.LoadTravellingLoadingScreen(text, worldName, travelingHome, false);
                 }
+
                 Simulator.Sleep(0u);
+                CameraController.DisableObjectFollow();
 
                 msg += "C";
                 Traveler.InsanityWriteLog(msg);
 
-                CameraController.DisableObjectFollow();
+                // Custom
                 MiniSimDescriptionEx.AddMiniSims();
 
                 msg += "D";
@@ -1559,21 +1566,30 @@ namespace NRaas.TravelerSpace.Helpers
                     {
                         PersistStatic.MainMenuLoading = true;
                         GameStates.sEditOtherWorldData = null;
-                        throw new Exception("SetupLoadFileName failed!");
+
+                        msg += "End";
+                        Traveler.InsanityWriteLog(msg);
+
+                        GameUtils.EnableSceneDraw(true);
+                        LoadingScreenController.Unload();
+                        return;
                     }
                 }
                 else
                 {
-                    msg += "E2";
-                    Traveler.InsanityWriteLog(msg);
-
                     string worldName2;
                     if (GameStates.sEditOtherWorldData.mState == GameStates.EditOtherWorldData.EditOtherWorldState.EditHomeWorld)
                     {
+                        msg += "E2";
+                        Traveler.InsanityWriteLog(msg);
+
                         worldName2 = GameStates.sEditOtherWorldData.mHomeWorldName;
                     }
                     else
                     {
+                        msg += "E3";
+                        Traveler.InsanityWriteLog(msg);
+
                         worldName2 = GameStates.sEditOtherWorldData.mWorldIStartedEditingInName;
                     }
                     GameStates.SetLoadFileName(worldName2, false);
@@ -1589,11 +1605,17 @@ namespace NRaas.TravelerSpace.Helpers
                     Household activeHousehold = Household.ActiveHousehold;
                     if (activeHousehold != null)
                     {
+                        msg += "F1";
+                        Traveler.InsanityWriteLog(msg);
+
                         string homeworldMetadataName = GameStates.HomeworldMetadataName;
                         UIManager.SetSaveGameMetadata(GameStates.sLoadFileName, activeHousehold.Name, activeHousehold.BioText, homeworldMetadataName, activeHousehold.HouseholdId, activeHousehold.LotId, true);
                     }
                     else
                     {
+                        msg += "F2";
+                        Traveler.InsanityWriteLog(msg);
+
                         UIManager.SetSaveGameMetadata(GameStates.sLoadFileName, "", "", "", 0uL, 0uL, true);
                     }
                 }
