@@ -1013,6 +1013,22 @@ namespace NRaas.TravelerSpace.Helpers
                 return false;
             }
         }
+        
+        public static bool GetSaveFileName(WorldName world, out string saveFile, bool useHexExtension)
+        {
+        	WorldNameData data = null;
+        	 if (sData.TryGetValue(world, out data))
+        	 {
+        	 	saveFile = data.mSaveFile;
+        	 	if (!useHexExtension)
+        	 	{
+        	 		saveFile = saveFile.Remove(saveFile.Length - 11);
+        	 	}
+        	 	return true;
+        	 }
+    	 	saveFile = "NotSet";
+    	 	return false;
+        }
 
         // Externalized to [Register]
         public static Dictionary<WorldName, string> GetWorlds(Dictionary<WorldName, string> worlds)
