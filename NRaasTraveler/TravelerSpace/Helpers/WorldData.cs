@@ -242,7 +242,7 @@ namespace NRaas.TravelerSpace.Helpers
 
                         action.mAllowedWorldTypes = types.ToArray();
                     }
-                }                
+                }
             }
 
             STCData.SetNumSocialsDuringConversation(int.MaxValue);
@@ -357,7 +357,7 @@ namespace NRaas.TravelerSpace.Helpers
                         break;
                     case "moonlight falls":
                         if (!GameUtils.IsInstalled(ProductVersion.EP7)) continue;
-                        
+
                         worldName = WorldName.MoonlightFalls;
 
                         saveFile += "_0x09b61110";
@@ -406,6 +406,8 @@ namespace NRaas.TravelerSpace.Helpers
                         saveFile += "_0x0de07c78";
                         break;
                     case "oasis landing":
+                        if (!GameUtils.IsInstalled(ProductVersion.EP11)) continue;
+
                         worldName = WorldName.FutureWorld;
 
                         saveFile += "_0x0f36012a";
@@ -422,6 +424,12 @@ namespace NRaas.TravelerSpace.Helpers
                 string infoIcon = "glb_i_suburb";
                 switch (info.mWorldType)
                 {
+                    case WorldType.Future:
+                        infoIcon = "hud_mt_i_future_world";
+                        break;
+                    case WorldType.University:
+                        infoIcon = "glb_i_university";
+                        break;
                     case WorldType.Downtown:
                         infoIcon = "glb_i_downtown";
                         break;
@@ -430,7 +438,7 @@ namespace NRaas.TravelerSpace.Helpers
                         break;
                     default:
                         break;
-                }                
+                }
 
                 if (!VisaManager.sDictionary.ContainsKey((ulong)worldName))
                 {
@@ -687,7 +695,7 @@ namespace NRaas.TravelerSpace.Helpers
                     else
                     {
                         GameUtils.WorldNameToType.Add(WorldName.UserCreated, WorldType.Vacation);
-                    }                    
+                    }
                 }
 
                 msg += "B";
@@ -986,7 +994,7 @@ namespace NRaas.TravelerSpace.Helpers
 
                 GameUtils.CheatOverrideCurrentWorld = WorldName.Undefined;
 
-                if (!GameStates.HasTravelData) 
+                if (!GameStates.HasTravelData)
                 {
                     switch (GameUtils.GetCurrentWorldType())
                     {
@@ -1013,21 +1021,21 @@ namespace NRaas.TravelerSpace.Helpers
                 return false;
             }
         }
-        
+
         public static bool GetSaveFileName(WorldName world, out string saveFile, bool useHexExtension)
         {
-        	WorldNameData data = null;
-        	 if (sData.TryGetValue(world, out data))
-        	 {
-        	 	saveFile = data.mSaveFile;
-        	 	if (!useHexExtension)
-        	 	{
-        	 		saveFile = saveFile.Remove(saveFile.Length - 11);
-        	 	}
-        	 	return true;
-        	 }
-    	 	saveFile = "NotSet";
-    	 	return false;
+            WorldNameData data = null;
+            if (sData.TryGetValue(world, out data))
+            {
+                saveFile = data.mSaveFile;
+                if (!useHexExtension)
+                {
+                    saveFile = saveFile.Remove(saveFile.Length - 11);
+                }
+                return true;
+            }
+            saveFile = "NotSet";
+            return false;
         }
 
         // Externalized to [Register]
@@ -1075,20 +1083,32 @@ namespace NRaas.TravelerSpace.Helpers
 
             return msg.ToString();
         }
-        
+
         public static bool IsEATravelWorld(WorldName world)
         {
-        	switch (world)
-        	{
-        		case WorldName.China:
-        		case WorldName.Egypt:
-        		case WorldName.France:
-        		case WorldName.University:
-        		case WorldName.FutureWorld:
-        			return true;
-        		default:
-        			return false;
-        	}
+            switch (world)
+            {
+                case WorldName.China:
+                case WorldName.Egypt:
+                case WorldName.France:
+                case WorldName.University:
+                case WorldName.FutureWorld:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        public static string GetWorldInfoIconKey(WorldName world)
+        {
+            string infoIcon = "glb_i_suburb";
+            WorldNameData data;
+            if (sData.TryGetValue(world, out data))
+            {
+                infoIcon = data.mDestinationInfoImage;
+            }
+
+            return infoIcon;
         }
 
         public class WorldNameData
@@ -1116,7 +1136,7 @@ namespace NRaas.TravelerSpace.Helpers
             public override string ToString()
             {
                 string text = null;
-                
+
                 text += Common.NewLine + "  WorldFile: " + mWorldFile;
                 text += Common.NewLine + "  SaveFile: " + mSaveFile;
                 text += Common.NewLine + "  Caption: " + mDestinationInfoName;

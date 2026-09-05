@@ -214,40 +214,7 @@ namespace NRaas.TravelerSpace.Helpers
                             List<WorldItem> options = new List<WorldItem>();
                             foreach (WorldName value in worlds)
                             {
-                                ResourceKey iconKey;
-                                if (WorldData.IsEATravelWorld(value))
-                                {
-                                    iconKey = ResourceKey.CreatePNGKey(Responder.Instance.HudModel.LocationIconName(value), 0u);
-                                }
-                                else
-                                {
-                                    WorldType worldType = GameUtils.GetWorldType(value);
-                                    switch (worldType)
-                                    {
-                                        case WorldType.Vacation:
-                                            iconKey = ResourceKey.CreatePNGKey("glb_i_vacation", 0u);
-                                            break;
-                                        case WorldType.Downtown:
-                                            iconKey = ResourceKey.CreatePNGKey("glb_i_downtown", 0u);
-                                            break;
-                                        case WorldType.University:
-                                            iconKey = ResourceKey.CreatePNGKey("glb_i_university", 0u);
-                                            break;
-                                        case WorldType.Future:
-                                            iconKey = ResourceKey.CreatePNGKey("hud_mt_i_future_world", 0u);
-                                            break;
-                                        default:
-                                            if (value == WorldName.Undefined)
-                                            {
-                                                iconKey = ResourceKey.CreatePNGKey("glb_i_home", 0u);
-                                            }
-                                            else
-                                            {
-                                                iconKey = ResourceKey.CreatePNGKey("glb_i_suburb", 0u);
-                                            }
-                                            break;
-                                    }
-                                }
+                                ResourceKey iconKey = ResourceKey.CreatePNGKey(WorldData.GetWorldInfoIconKey(value), 0u);
                                 options.Add(new WorldItem(value, iconKey));
                             }
 
