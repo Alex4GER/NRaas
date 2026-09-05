@@ -182,14 +182,7 @@ namespace NRaas.TravelerSpace.States
 
                 if (GameStates.sEditOtherWorldData == null)
                 {
-	                try
-	                {
-	                    LoadingScreenControllerEx.HandleLoadingScreen();
-	                }
-	                catch (Exception e)
-	                {
-	                    Common.Exception("", e);
-	                }
+                    LoadingScreenControllerEx.HandleLoadingScreen();
                 }
             }
             catch (Exception e)
