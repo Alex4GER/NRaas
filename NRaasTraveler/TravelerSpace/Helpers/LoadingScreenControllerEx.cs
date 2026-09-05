@@ -9,16 +9,7 @@ using Sims3.SimIFace;
 namespace NRaas.TravelerSpace.Helpers
 {
 	public class LoadingScreenControllerEx
-	{
-		public static readonly List<WorldName> sVacationWorldNames = new List<WorldName>
-		{
-			WorldName.China,
-			WorldName.Egypt,
-			WorldName.France,
-			WorldName.University,
-			WorldName.FutureWorld
-		};
-		
+	{	
 		public enum LoadingImageType : uint
 		{
 			None = 0x00u,
@@ -59,7 +50,7 @@ namespace NRaas.TravelerSpace.Helpers
 						}
 					}
 				}
-				if (travellingHome || !sVacationWorldNames.Contains(worldName))
+				if (travellingHome || !WorldData.IsEATravelWorld(worldName))
 				{
 					Responder.Instance.HudModel.PlayLoadLoopAudio(WorldName.Undefined);
 				}
@@ -119,17 +110,17 @@ namespace NRaas.TravelerSpace.Helpers
 						worldNameStr = GameStates.sEditOtherWorldData.mWorldIStartedEditingInName;
 						if (GameStates.sEditOtherWorldData.mHomeWorldName != GameStates.sEditOtherWorldData.mWorldIStartedEditingInName)
 						{
-							replaceCaption = !sVacationWorldNames.Contains(worldName);
+							replaceCaption = !WorldData.IsEATravelWorld(worldName);
 						}
 						else
 						{
-							replaceTravelingScreen = !sVacationWorldNames.Contains(worldName);
+							replaceTravelingScreen = !WorldData.IsEATravelWorld(worldName);
 						}
 					}
 					else
 					{
 						worldNameStr = Responder.Instance.HudModel.LocationName(GameStates.sEditOtherWorldData.mDestWorld, true);
-						if (!sVacationWorldNames.Contains(GameStates.sEditOtherWorldData.mDestWorld))
+						if (!WorldData.IsEATravelWorld(GameStates.sEditOtherWorldData.mDestWorld))
 						{
 							worldNameStr = WorldData.GetLocationName(GameStates.sEditOtherWorldData.mDestWorld);
 							replaceCaption = true;
@@ -156,7 +147,7 @@ namespace NRaas.TravelerSpace.Helpers
 					worldName = WorldName.Undefined;
 					worldNameStr = GameStates.sTravelData.mHomeWorld;
 				}
-				else if (!sVacationWorldNames.Contains(GameStates.DestinationTravelWorld))
+				else if (!WorldData.IsEATravelWorld(GameStates.DestinationTravelWorld))
 				{
 					//Common.WriteLog("Traveling non Vacation World");
 					worldNameStr = WorldData.GetLocationName(GameStates.DestinationTravelWorld);

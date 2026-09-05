@@ -56,7 +56,7 @@ namespace NRaas.TravelerSpace.Helpers
                     }
                 }
 
-                if (LoadingScreenControllerEx.sVacationWorldNames.Contains(world))
+                if (WorldData.IsEATravelWorld(world))
                 {
                     numItems++;
                 }
@@ -86,7 +86,7 @@ namespace NRaas.TravelerSpace.Helpers
                 {
                     foreach (WorldName current in availableLocations.ToArray())
                     {
-                        if (LoadingScreenControllerEx.sVacationWorldNames.Contains(current) && numItems < 6)
+                        if (WorldData.IsEATravelWorld(current) && numItems < 6)
                         {
                             AddGridItem(grid, layoutKey, current);
                             numItems++;
@@ -215,7 +215,7 @@ namespace NRaas.TravelerSpace.Helpers
                             foreach (WorldName value in worlds)
                             {
                                 ResourceKey iconKey;
-                                if (LoadingScreenControllerEx.sVacationWorldNames.Contains(value))
+                                if (WorldData.IsEATravelWorld(value))
                                 {
                                     iconKey = ResourceKey.CreatePNGKey(Responder.Instance.HudModel.LocationIconName(value), 0u);
                                 }
@@ -361,7 +361,7 @@ namespace NRaas.TravelerSpace.Helpers
             { }
 
             public WorldItem(WorldName value, ResourceKey iconKey)
-                : base(LoadingScreenControllerEx.sVacationWorldNames.Contains(value) ? Responder.Instance.HudModel.LocationName(value, true) : WorldData.GetLocationName(value), 0, iconKey)
+                : base(WorldData.IsEATravelWorld(value) ? Responder.Instance.HudModel.LocationName(value, true) : WorldData.GetLocationName(value), 0, iconKey)
             {
                 mValue = value;
             }

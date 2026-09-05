@@ -1075,6 +1075,21 @@ namespace NRaas.TravelerSpace.Helpers
 
             return msg.ToString();
         }
+        
+        public static bool IsEATravelWorld(WorldName world)
+        {
+        	switch (world)
+        	{
+        		case WorldName.China:
+        		case WorldName.Egypt:
+        		case WorldName.France:
+        		case WorldName.University:
+        		case WorldName.FutureWorld:
+        			return true;
+        		default:
+        			return false;
+        	}
+        }
 
         public class WorldNameData
         {

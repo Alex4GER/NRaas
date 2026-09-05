@@ -63,7 +63,7 @@ namespace NRaas.TravelerSpace.Helpers
                     }
                     else
                     {
-                        if (LoadingScreenControllerEx.sVacationWorldNames.Contains(GameStates.DestinationTravelWorld))
+                        if (WorldData.IsEATravelWorld(GameStates.DestinationTravelWorld))
                         {
                             travelWorldName = Sims3.Gameplay.UI.Responder.Instance.HudModel.LocationName(GameStates.DestinationTravelWorld, true);
                         }
@@ -1531,7 +1531,7 @@ namespace NRaas.TravelerSpace.Helpers
                 GameUtils.EnableSceneDraw(false);
 
                 // Custom
-                if (LoadingScreenControllerEx.sVacationWorldNames.Contains(worldName))
+                if (WorldData.IsEATravelWorld(worldName))
                 {
                     string text = Sims3.Gameplay.UI.Responder.Instance.HudModel.LocationName(worldName, true);
                     LoadingScreenControllerEx.LoadTravellingLoadingScreen(text, worldName, travelingHome, false);
