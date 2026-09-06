@@ -27,8 +27,7 @@ namespace NRaas.TravelerSpace.Helpers
                 Common.Sleep();
             }
             This.mReturnToLiveButton.Visible = false;
-            This.mReturnToLiveButton.Dispose();
-            This.mReturnToLiveButton = (This.GetChildByID(1404022080u, true) as Button);
+            UIManager.DeRegisterAllEvents(This.mReturnToLiveButton);
             This.mReturnToLiveButton.Click += new UIEventHandler<UIButtonClickEventArgs>(OnReturnToLive);
             This.mReturnToLiveButton.Visible = true;
 
@@ -71,7 +70,7 @@ namespace NRaas.TravelerSpace.Helpers
             WindowBase childByID = This.GetChildByID(1404022083u, true);
             childByID.Visible = false;
             ItemGrid grid = This.GetChildByID(1404022084u, true) as ItemGrid;
-            grid.Clear();
+            grid.Clear(true);
 
             ResourceKey layoutKey = ResourceKey.CreateUILayoutKey("LocationGridItem", 0u);
             if (!This.mModel.IsPlaceLotsWizardFlow)
@@ -129,7 +128,7 @@ namespace NRaas.TravelerSpace.Helpers
             {
                 if (Responder.Instance.HudModel != null && Responder.Instance.OptionsModel != null && !Responder.Instance.OptionsModel.SaveGameInProgress && Responder.Instance.HudModel.IsGameEntryState())
                 {
-                    if (GameUtils.IsOnVacation() && !This.mModel.IsAnyLotBaseCampEP1())
+                    if (WorldData.GetWorldType(GameUtils.GetCurrentWorld()) == WorldType.Vacation && !This.mModel.IsAnyLotBaseCampEP1())
                     {
                         ILocalizationModel localizationModel = Responder.Instance.LocalizationModel;
                         string titleText = localizationModel.LocalizeString("Ui/Caption/Global:Failed", new object[0]);
@@ -138,7 +137,7 @@ namespace NRaas.TravelerSpace.Helpers
                     }
                     else
                     {
-                        if (GameUtils.IsFutureWorld() && !This.mModel.IsAnyLotBaseCampFutureEP11())
+                        if (WorldData.GetWorldType(GameUtils.GetCurrentWorld()) == WorldType.Future && !This.mModel.IsAnyLotBaseCampFutureEP11())
                         {
                             ILocalizationModel localizationModel2 = Responder.Instance.LocalizationModel;
                             string titleText2 = localizationModel2.LocalizeString("Ui/Caption/Global:Failed", new object[0]);
@@ -187,7 +186,7 @@ namespace NRaas.TravelerSpace.Helpers
                 WindowBase windowBase = inObject as WindowBase;
                 if (Responder.Instance.HudModel != null && Responder.Instance.OptionsModel != null && windowBase != null && !Responder.Instance.OptionsModel.SaveGameInProgress && Responder.Instance.HudModel.IsGameEntryState())
                 {
-                    if (GameUtils.IsOnVacation() && !This.mModel.IsAnyLotBaseCampEP1())
+                    if (WorldData.GetWorldType(GameUtils.GetCurrentWorld()) == WorldType.Vacation && !This.mModel.IsAnyLotBaseCampEP1())
                     {
                         ILocalizationModel localizationModel = Responder.Instance.LocalizationModel;
                         string titleText = localizationModel.LocalizeString("Ui/Caption/Global:Failed", new object[0]);
@@ -196,7 +195,7 @@ namespace NRaas.TravelerSpace.Helpers
                     }
                     else
                     {
-                        if (GameUtils.IsFutureWorld() && !This.mModel.IsAnyLotBaseCampFutureEP11())
+                        if (WorldData.GetWorldType(GameUtils.GetCurrentWorld()) == WorldType.Future && !This.mModel.IsAnyLotBaseCampFutureEP11())
                         {
                             ILocalizationModel localizationModel2 = Responder.Instance.LocalizationModel;
                             string titleText2 = localizationModel2.LocalizeString("Ui/Caption/Global:Failed", new object[0]);
@@ -207,6 +206,8 @@ namespace NRaas.TravelerSpace.Helpers
                         {
                             This.HidePanels();
                             This.UpdateBackButton(true);
+
+                            // Custom
                             WorldName world = WorldName.Undefined;
                             string worldName = null;
                             ICollection<WorldName> worlds = windowBase.Tag as ICollection<WorldName>;

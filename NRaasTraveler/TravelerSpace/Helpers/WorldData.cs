@@ -271,9 +271,9 @@ namespace NRaas.TravelerSpace.Helpers
 
             if (GameUtils.IsInstalled(ProductVersion.EP1))
             {
-                data.Add(new KeyValuePair<WorldName, WorldNameData>(WorldName.China, new WorldNameData("China.world", "China_0x0859db4c", TravelUtil.DestinationInfoImage[0], TravelUtil.DestinationInfoName[0], TravelUtil.DestinationInfoDescription[0], UIManager.LoadUIImage(ResourceKey.CreatePNGKey(TravelUtil.DestinationInfoConfirmImage[0], 0x0)), TravelUtil.DestinationInfoComfirmDescription[0])));
-                data.Add(new KeyValuePair<WorldName, WorldNameData>(WorldName.Egypt, new WorldNameData("Egypt.world", "Egypt_0x0859db48", TravelUtil.DestinationInfoImage[1], TravelUtil.DestinationInfoName[1], TravelUtil.DestinationInfoDescription[1], UIManager.LoadUIImage(ResourceKey.CreatePNGKey(TravelUtil.DestinationInfoConfirmImage[1], 0x0)), TravelUtil.DestinationInfoComfirmDescription[1])));
-                data.Add(new KeyValuePair<WorldName, WorldNameData>(WorldName.France, new WorldNameData("France.world", "France_0x0859db50", TravelUtil.DestinationInfoImage[2], TravelUtil.DestinationInfoName[2], TravelUtil.DestinationInfoDescription[2], UIManager.LoadUIImage(ResourceKey.CreatePNGKey(TravelUtil.DestinationInfoConfirmImage[2], 0x0)), TravelUtil.DestinationInfoComfirmDescription[2])));
+                data.Add(new KeyValuePair<WorldName, WorldNameData>(WorldName.China, new WorldNameData("China.world", "China_0x0859db4c", TravelUtil.DestinationInfoImage[0], TravelUtil.DestinationInfoName[0], TravelUtil.DestinationInfoDescription[0], UIManager.LoadUIImage(ResourceKey.CreatePNGKey(TravelUtil.DestinationInfoConfirmImage[0], 0x0)), TravelUtil.DestinationInfoComfirmDescription[0], WorldType.Vacation)));
+                data.Add(new KeyValuePair<WorldName, WorldNameData>(WorldName.Egypt, new WorldNameData("Egypt.world", "Egypt_0x0859db48", TravelUtil.DestinationInfoImage[1], TravelUtil.DestinationInfoName[1], TravelUtil.DestinationInfoDescription[1], UIManager.LoadUIImage(ResourceKey.CreatePNGKey(TravelUtil.DestinationInfoConfirmImage[1], 0x0)), TravelUtil.DestinationInfoComfirmDescription[1], WorldType.Vacation)));
+                data.Add(new KeyValuePair<WorldName, WorldNameData>(WorldName.France, new WorldNameData("France.world", "France_0x0859db50", TravelUtil.DestinationInfoImage[2], TravelUtil.DestinationInfoName[2], TravelUtil.DestinationInfoDescription[2], UIManager.LoadUIImage(ResourceKey.CreatePNGKey(TravelUtil.DestinationInfoConfirmImage[2], 0x0)), TravelUtil.DestinationInfoComfirmDescription[2], WorldType.Vacation)));
             }
 
             List<WorldFileMetadata> worlds = new List<WorldFileMetadata>();
@@ -457,7 +457,7 @@ namespace NRaas.TravelerSpace.Helpers
 
                     VisaManager.sDictionary.Add((ulong)worldName, defaultVisa);
 
-                    data.Add(new KeyValuePair<WorldName, WorldNameData>(worldName, new WorldNameData(info.mWorldFile, saveFile, infoIcon, info.mCaption, info.mDescription, info.mWorldThumb, Common.Localize("Itinerary:Name", false, new object[] { info.mCaption }))));
+                    data.Add(new KeyValuePair<WorldName, WorldNameData>(worldName, new WorldNameData(info.mWorldFile, saveFile, infoIcon, info.mCaption, info.mDescription, info.mWorldThumb, Common.Localize("Itinerary:Name", false, new object[] { info.mCaption }), info.mWorldType)));
                 }
             }
 
@@ -1111,6 +1111,18 @@ namespace NRaas.TravelerSpace.Helpers
             return infoIcon;
         }
 
+        public static WorldType GetWorldType(WorldName world)
+        {
+            WorldType worldType = WorldType.Undefined;
+            WorldNameData data;
+            if (sData.TryGetValue(world, out data))
+            {
+                worldType = data.mWorldType;
+            }
+
+            return worldType;
+        }
+
         public class WorldNameData
         {
             public readonly string mWorldFile;
@@ -1122,7 +1134,9 @@ namespace NRaas.TravelerSpace.Helpers
             public readonly UIImage mDestinationInfoConfirmImage;
             public readonly string mDestinationInfoConfirmDescription;
 
-            public WorldNameData(string worldFile, string saveFile, string destinationInfoImage, string destinationInfoName, string destinationInfoDescription, UIImage destinationInfoConfirmImage, string destinationInfoConfirmDescription)
+            public readonly WorldType mWorldType;
+
+            public WorldNameData(string worldFile, string saveFile, string destinationInfoImage, string destinationInfoName, string destinationInfoDescription, UIImage destinationInfoConfirmImage, string destinationInfoConfirmDescription, WorldType worldType)
             {
                 mWorldFile = worldFile;
                 mSaveFile = saveFile;
@@ -1131,6 +1145,7 @@ namespace NRaas.TravelerSpace.Helpers
                 mDestinationInfoDescription = destinationInfoDescription;
                 mDestinationInfoConfirmImage = destinationInfoConfirmImage;
                 mDestinationInfoConfirmDescription = destinationInfoConfirmDescription;
+                mWorldType = worldType;
             }
 
             public override string ToString()
