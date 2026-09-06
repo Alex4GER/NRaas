@@ -180,7 +180,7 @@ namespace NRaas.TravelerSpace.States
                 msg += Common.NewLine + "FileName: " + GameStates.LoadFileName;
                 Traveler.InsanityWriteLog(msg);
 
-                if (GameStates.sEditOtherWorldData == null)
+                if (GameStates.sMovingWorldData == null && GameStates.sEditOtherWorldData == null)
                 {
                     LoadingScreenControllerEx.HandleLoadingScreen();
                 }

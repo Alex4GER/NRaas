@@ -94,6 +94,7 @@ namespace NRaas.TravelerSpace.Helpers
                     msg += "MovingWorlds" + Common.NewLine;
 
                     worldNameStr = GameStates.sMovingWorldData.mDestWorld;
+                    worldNameStr = worldNameStr.Remove(worldNameStr.Length - 6);
                 }
                 else if (GameStates.IsEditingOtherTown)
                 {
