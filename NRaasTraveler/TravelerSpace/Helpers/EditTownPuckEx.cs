@@ -320,7 +320,7 @@ namespace NRaas.TravelerSpace.Helpers
             }
         }
 
-        private class WorldItem : InteractionOptionItem<IActor, GameObject, GameHitParameters<GameObject>>, ICloseDialogOption
+        private class WorldItem : CommonOptionItem
         {
             protected WorldName mValue;
 
@@ -328,14 +328,9 @@ namespace NRaas.TravelerSpace.Helpers
             { }
 
             public WorldItem(WorldName value, ResourceKey iconKey)
-                : base(WorldData.IsEATravelWorld(value) ? Responder.Instance.HudModel.LocationName(value, true) : WorldData.GetLocationName(value), 0, iconKey)
+                : base(WorldData.IsEATravelWorld(value) ? Responder.Instance.HudModel.LocationName(value, true) : WorldData.GetLocationName(value), -1, iconKey)
             {
                 mValue = value;
-            }
-
-            public override string Name
-            {
-                get { return mName; }
             }
 
             public virtual WorldName Value
@@ -348,17 +343,10 @@ namespace NRaas.TravelerSpace.Helpers
 
             public override string DisplayValue
             {
-                get { return string.Empty; }
-            }
-
-            public override string GetTitlePrefix()
-            {
-                return "WorldItem";
-            }
-
-            protected override OptionResult Run(GameHitParameters<GameObject> parameters)
-            {
-                return OptionResult.SuccessClose;
+                get
+                {
+                	return null;
+                }
             }
         }
     }
