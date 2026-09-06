@@ -1521,7 +1521,7 @@ namespace NRaas.TravelerSpace.Helpers
                             num++;
                         }
                     }
-                    Common.Sleep();
+                    SpeedTrap.Sleep();
                     foreach (Sim current in list)
                     {
                         GameStates.sTravelData.mEarlyDepartures.Add(current);
@@ -1547,7 +1547,7 @@ namespace NRaas.TravelerSpace.Helpers
                     LoadingScreenControllerEx.LoadTravellingLoadingScreen(text, worldName, travelingHome, false);
                 }
 
-                Common.Sleep();
+                SpeedTrap.Sleep();
                 CameraController.DisableObjectFollow();
 
                 msg += "C";

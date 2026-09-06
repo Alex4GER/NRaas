@@ -125,39 +125,40 @@ namespace NRaas.TravelerSpace.Helpers
         private static void ReturnToLive()
         {
             EditTownPuck This = EditTownPuck.Instance;
-            if (This == null) return;
-
-            if (Responder.Instance.HudModel != null && Responder.Instance.OptionsModel != null && !Responder.Instance.OptionsModel.SaveGameInProgress && Responder.Instance.HudModel.IsGameEntryState())
+            if (This != null)
             {
-                if (GameUtils.IsOnVacation() && !This.mModel.IsAnyLotBaseCampEP1())
+                if (Responder.Instance.HudModel != null && Responder.Instance.OptionsModel != null && !Responder.Instance.OptionsModel.SaveGameInProgress && Responder.Instance.HudModel.IsGameEntryState())
                 {
-                    ILocalizationModel localizationModel = Responder.Instance.LocalizationModel;
-                    string titleText = localizationModel.LocalizeString("Ui/Caption/Global:Failed", new object[0]);
-                    string messageText = localizationModel.LocalizeString("Ui/Caption/GameEntry/EditTown/EP01:NeedBasecamp", new object[0]);
-                    SimpleMessageDialog.Show(titleText, messageText, ModalDialog.PauseMode.PauseSimulator, new Vector2(-1f, -1f), "ui_error", "ui_hardwindow_close");
-                }
-                else
-                {
-                    if (GameUtils.IsFutureWorld() && !This.mModel.IsAnyLotBaseCampFutureEP11())
+                    if (GameUtils.IsOnVacation() && !This.mModel.IsAnyLotBaseCampEP1())
                     {
-                        ILocalizationModel localizationModel2 = Responder.Instance.LocalizationModel;
-                        string titleText2 = localizationModel2.LocalizeString("Ui/Caption/Global:Failed", new object[0]);
-                        string messageText2 = localizationModel2.LocalizeString("Ui/Caption/GameEntry/EditTown/EP11:NeedBasecampFuture", new object[0]);
-                        SimpleMessageDialog.Show(titleText2, messageText2, ModalDialog.PauseMode.PauseSimulator, new Vector2(-1f, -1f), "ui_error", "ui_hardwindow_close");
+                        ILocalizationModel localizationModel = Responder.Instance.LocalizationModel;
+                        string titleText = localizationModel.LocalizeString("Ui/Caption/Global:Failed", new object[0]);
+                        string messageText = localizationModel.LocalizeString("Ui/Caption/GameEntry/EditTown/EP01:NeedBasecamp", new object[0]);
+                        SimpleMessageDialog.Show(titleText, messageText, ModalDialog.PauseMode.PauseSimulator, new Vector2(-1f, -1f), "ui_error", "ui_hardwindow_close");
                     }
                     else
                     {
-                        if (!This.mModel.IsPlaceLotsWizardFlow || AcceptCancelDialog.Show(Responder.Instance.LocalizationModel.LocalizeString("Ui/Caption/GameEntry/PlaceEPLotsWizard:CancelPrompt", new object[0])))
+                        if (GameUtils.IsFutureWorld() && !This.mModel.IsAnyLotBaseCampFutureEP11())
                         {
-                            This.HidePanels();
-                            This.UpdateBackButton(true);
-                            if (!EditTownModelEx.ExitEditTown(Responder.Instance.EditTownModel as EditTownModel, false))
+                            ILocalizationModel localizationModel2 = Responder.Instance.LocalizationModel;
+                            string titleText2 = localizationModel2.LocalizeString("Ui/Caption/Global:Failed", new object[0]);
+                            string messageText2 = localizationModel2.LocalizeString("Ui/Caption/GameEntry/EditTown/EP11:NeedBasecampFuture", new object[0]);
+                            SimpleMessageDialog.Show(titleText2, messageText2, ModalDialog.PauseMode.PauseSimulator, new Vector2(-1f, -1f), "ui_error", "ui_hardwindow_close");
+                        }
+                        else
+                        {
+                            if (!This.mModel.IsPlaceLotsWizardFlow || AcceptCancelDialog.Show(Responder.Instance.LocalizationModel.LocalizeString("Ui/Caption/GameEntry/PlaceEPLotsWizard:CancelPrompt", new object[0])))
                             {
-                                This.UpdateBackButton(false);
-                            }
-                            else
-                            {
-                                This.mModel.IsPlaceLotsWizardFlow = false;
+                                This.HidePanels();
+                                This.UpdateBackButton(true);
+                                if (!EditTownModelEx.ExitEditTown(Responder.Instance.EditTownModel as EditTownModel, false))
+                                {
+                                    This.UpdateBackButton(false);
+                                }
+                                else
+                                {
+                                    This.mModel.IsPlaceLotsWizardFlow = false;
+                                }
                             }
                         }
                     }
@@ -174,98 +175,99 @@ namespace NRaas.TravelerSpace.Helpers
             if (!This.mExitingGameEntry)
             {
                 This.mExitingGameEntry = true;
-                Simulator.AddObject(new OneShotFunctionWithParams(new FunctionWithParam(GotoWorldTask), sender));
+                Simulator.AddObject(new OneShotFunctionWithParams(GotoWorldTask, sender));
             }
         }
 
         private static void GotoWorldTask(object inObject)
         {
             EditTownPuck This = EditTownPuck.Instance;
-            if (This == null) return;
-
-            WindowBase windowBase = inObject as WindowBase;
-            if (Responder.Instance.HudModel != null && Responder.Instance.OptionsModel != null && windowBase != null && !Responder.Instance.OptionsModel.SaveGameInProgress && Responder.Instance.HudModel.IsGameEntryState())
+            if (This != null)
             {
-                if (GameUtils.IsOnVacation() && !This.mModel.IsAnyLotBaseCampEP1())
+                WindowBase windowBase = inObject as WindowBase;
+                if (Responder.Instance.HudModel != null && Responder.Instance.OptionsModel != null && windowBase != null && !Responder.Instance.OptionsModel.SaveGameInProgress && Responder.Instance.HudModel.IsGameEntryState())
                 {
-                    ILocalizationModel localizationModel = Responder.Instance.LocalizationModel;
-                    string titleText = localizationModel.LocalizeString("Ui/Caption/Global:Failed", new object[0]);
-                    string messageText = localizationModel.LocalizeString("Ui/Caption/GameEntry/EditTown/EP01:NeedBasecamp", new object[0]);
-                    SimpleMessageDialog.Show(titleText, messageText, ModalDialog.PauseMode.PauseSimulator, new Vector2(-1f, -1f), "ui_error", "ui_hardwindow_close");
-                }
-                else
-                {
-                    if (GameUtils.IsFutureWorld() && !This.mModel.IsAnyLotBaseCampFutureEP11())
+                    if (GameUtils.IsOnVacation() && !This.mModel.IsAnyLotBaseCampEP1())
                     {
-                        ILocalizationModel localizationModel2 = Responder.Instance.LocalizationModel;
-                        string titleText2 = localizationModel2.LocalizeString("Ui/Caption/Global:Failed", new object[0]);
-                        string messageText2 = localizationModel2.LocalizeString("Ui/Caption/GameEntry/EditTown/EP11:NeedBasecampFuture", new object[0]);
-                        SimpleMessageDialog.Show(titleText2, messageText2, ModalDialog.PauseMode.PauseSimulator, new Vector2(-1f, -1f), "ui_error", "ui_hardwindow_close");
+                        ILocalizationModel localizationModel = Responder.Instance.LocalizationModel;
+                        string titleText = localizationModel.LocalizeString("Ui/Caption/Global:Failed", new object[0]);
+                        string messageText = localizationModel.LocalizeString("Ui/Caption/GameEntry/EditTown/EP01:NeedBasecamp", new object[0]);
+                        SimpleMessageDialog.Show(titleText, messageText, ModalDialog.PauseMode.PauseSimulator, new Vector2(-1f, -1f), "ui_error", "ui_hardwindow_close");
                     }
                     else
                     {
-                        This.HidePanels();
-                        This.UpdateBackButton(true);
-                        WorldName world = WorldName.Undefined;
-                        string worldName = null;
-                        ICollection<WorldName> worlds = windowBase.Tag as ICollection<WorldName>;
-                        if (worlds != null)
+                        if (GameUtils.IsFutureWorld() && !This.mModel.IsAnyLotBaseCampFutureEP11())
                         {
-                            List<WorldItem> options = new List<WorldItem>();
-                            foreach (WorldName value in worlds)
-                            {
-                                ResourceKey iconKey = ResourceKey.CreatePNGKey(WorldData.GetWorldInfoIconKey(value), 0u);
-                                options.Add(new WorldItem(value, iconKey));
-                            }
-
-                            WorldItem selection = new CommonSelection<WorldItem>(Common.Localize("EditTownPuckEx:SelectTownCaption"), options).SelectSingle();
-                            if (selection != null)
-                            {
-                                world = selection.Value;
-                                worldName = selection.Name;
-                            }
+                            ILocalizationModel localizationModel2 = Responder.Instance.LocalizationModel;
+                            string titleText2 = localizationModel2.LocalizeString("Ui/Caption/Global:Failed", new object[0]);
+                            string messageText2 = localizationModel2.LocalizeString("Ui/Caption/GameEntry/EditTown/EP11:NeedBasecampFuture", new object[0]);
+                            SimpleMessageDialog.Show(titleText2, messageText2, ModalDialog.PauseMode.PauseSimulator, new Vector2(-1f, -1f), "ui_error", "ui_hardwindow_close");
                         }
                         else
                         {
-                            world = (WorldName)windowBase.Tag;
-                            worldName = windowBase.TooltipText;
-                        }
-
-                        if (worldName != null && AcceptCancelDialog.Show(Responder.Instance.LocalizationModel.LocalizeString("Ui/Caption/EditTown/Puck:EditLocationPrompt", new object[]
-                        {
-                            worldName
-                        })) && EditTownController.PromptForNonEmptyClipboard())
-                        {
-                            GameStatesEx.EditWorld(world, false);
-                            LotManager.sWorldHasDiveLots = false;
-                            foreach (Lot allLot in LotManager.AllLots)
+                            This.HidePanels();
+                            This.UpdateBackButton(true);
+                            WorldName world = WorldName.Undefined;
+                            string worldName = null;
+                            ICollection<WorldName> worlds = windowBase.Tag as ICollection<WorldName>;
+                            if (worlds != null)
                             {
-                                allLot.CalculateMetaAutonomyTypeAndConsiderAddingToPublicMetaObjects();
-                                allLot.UpdateVirtualResidentialSlots();
-                                if (!LotManager.sWorldHasDiveLots && allLot.CommercialLotSubType == CommercialLotSubType.kEP10_Diving)
+                                List<WorldItem> options = new List<WorldItem>();
+                                foreach (WorldName value in worlds)
                                 {
-                                    LotManager.sWorldHasDiveLots = true;
+                                    ResourceKey iconKey = ResourceKey.CreatePNGKey(WorldData.GetWorldInfoIconKey(value), 0u);
+                                    options.Add(new WorldItem(value, iconKey));
+                                }
+
+                                WorldItem selection = new CommonSelection<WorldItem>(Common.Localize("EditTownPuckEx:SelectTownCaption"), options).SelectSingle();
+                                if (selection != null)
+                                {
+                                    world = selection.Value;
+                                    worldName = selection.Name;
                                 }
                             }
-                            if (!World.IsEditInGameFromWBMode())
+                            else
                             {
-                                Household.FindSuitableServiceAndTownieAccomodations();
+                                world = (WorldName)windowBase.Tag;
+                                worldName = windowBase.TooltipText;
                             }
-                            if (Household.ActiveHousehold != null)
+
+                            if (worldName != null && AcceptCancelDialog.Show(Responder.Instance.LocalizationModel.LocalizeString("Ui/Caption/EditTown/Puck:EditLocationPrompt", new object[]
                             {
-                                foreach (Sim allActor in Household.ActiveHousehold.AllActors)
+                            worldName
+                            })) && EditTownController.PromptForNonEmptyClipboard())
+                            {
+                                GameStatesEx.EditWorld(world, false);
+                                LotManager.sWorldHasDiveLots = false;
+                                foreach (Lot allLot in LotManager.AllLots)
                                 {
-                                    if (allActor.MapTagManager != null)
+                                    allLot.CalculateMetaAutonomyTypeAndConsiderAddingToPublicMetaObjects();
+                                    allLot.UpdateVirtualResidentialSlots();
+                                    if (!LotManager.sWorldHasDiveLots && allLot.CommercialLotSubType == CommercialLotSubType.kEP10_Diving)
                                     {
-                                        allActor.MapTagManager.Reset();
+                                        LotManager.sWorldHasDiveLots = true;
                                     }
                                 }
+                                if (!World.IsEditInGameFromWBMode())
+                                {
+                                    Household.FindSuitableServiceAndTownieAccomodations();
+                                }
+                                if (Household.ActiveHousehold != null)
+                                {
+                                    foreach (Sim allActor in Household.ActiveHousehold.AllActors)
+                                    {
+                                        if (allActor.MapTagManager != null)
+                                        {
+                                            allActor.MapTagManager.Reset();
+                                        }
+                                    }
+                                }
+                                LotManager.ForceReplanOfAllSimRoutes();
                             }
-                            LotManager.ForceReplanOfAllSimRoutes();
-                        }
-                        else
-                        {
-                            This.UpdateBackButton(false);
+                            else
+                            {
+                                This.UpdateBackButton(false);
+                            }
                         }
                     }
                 }
@@ -345,7 +347,7 @@ namespace NRaas.TravelerSpace.Helpers
             {
                 get
                 {
-                	return null;
+                    return null;
                 }
             }
         }
