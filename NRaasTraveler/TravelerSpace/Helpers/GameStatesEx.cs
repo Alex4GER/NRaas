@@ -133,14 +133,7 @@ namespace NRaas.TravelerSpace.Helpers
                 Sims3.UI.Responder.Instance.HudModel.PlayLoadLoopAudio(WorldName.Undefined);
             }
             LoadingScreenController.LoadNewGameLoadingScreen(info);
-            try
-            {
-                LoadingScreenControllerEx.HandleLoadingScreen();
-            }
-            catch (Exception e)
-            {
-                Common.Exception("", e);
-            }
+            LoadingScreenControllerEx.HandleLoadingScreen();
 
             SpeedTrap.Sleep();
 
