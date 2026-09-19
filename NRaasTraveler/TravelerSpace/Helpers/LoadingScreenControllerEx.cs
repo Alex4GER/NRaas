@@ -102,7 +102,13 @@ namespace NRaas.TravelerSpace.Helpers
 			bool replaceTravelingScreen = false;
 			WorldName worldName = LoadingScreenController.sWorldName;
 
-			if (GameStates.IsEditingOtherTown)
+			if (GameStates.IsMovingWorlds)
+			{
+				//Common.WriteLog("MovingWorlds");
+				worldNameStr = GameStates.sMovingWorldData.mDestWorld;
+				worldNameStr = worldNameStr.Remove(worldNameStr.Length - 6);
+			}
+			else if (GameStates.IsEditingOtherTown)
 			{
 				//Common.WriteLog("EditingOtherTown");
 				if (GameStates.sEditOtherWorldData.mState == GameStates.EditOtherWorldData.EditOtherWorldState.EditHomeWorld)

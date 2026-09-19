@@ -128,7 +128,19 @@ namespace NRaas.TravelerSpace.Helpers
             WorldFileMetadata info = new WorldFileMetadata();
             info.mWorldFile = GameStates.sMovingWorldData.mDestWorld;
             Sims3.UI.Responder.Instance.MainMenuModel.GetWorldFileDetails(ref info);
+            if (!LoadingScreenController.IsLayoutLoaded())
+            {
+                Sims3.UI.Responder.Instance.HudModel.PlayLoadLoopAudio(WorldName.Undefined);
+            }
             LoadingScreenController.LoadNewGameLoadingScreen(info);
+            try
+            {
+                LoadingScreenControllerEx.HandleLoadingScreen();
+            }
+            catch (Exception e)
+            {
+                Common.Exception("", e);
+            }
 
             SpeedTrap.Sleep();
 
