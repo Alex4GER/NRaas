@@ -47,6 +47,11 @@ namespace NRaas.TravelerSpace.Helpers
         [PersistableStatic]
         static Dictionary<ulong, bool> sResidentIds = new Dictionary<ulong, bool>();
 
+        public class EditOtherWorldDataEx : GameStates.EditOtherWorldData
+        {
+            public bool mTravelHouseIsActiveHouse;
+        }
+
         public static void StartLoadingScreen(bool isReturningHome)
         {
             try
@@ -1442,16 +1447,18 @@ namespace NRaas.TravelerSpace.Helpers
             {
                 if (GameStates.sEditOtherWorldData == null)
                 {
-                    GameStates.sEditOtherWorldData= new GameStates.EditOtherWorldData();
-                    GameStates.sEditOtherWorldData.mWorldIStartedEditingInName = GameStates.GetCurrentWorldName(true);
-                    GameStates.sEditOtherWorldData.mHasAFamilyBeenSelectedAtHome = (GameStates.sTravelData != null || Sim.ActiveActor != null);
-                    GameStates.sEditOtherWorldData.mSaveName = ((GameStates.sTravelData != null) ? GameStates.sTravelData.mSaveName : GameStates.sLoadFileName);
-                    GameStates.sEditOtherWorldData.mHomeWorldName = ((GameStates.sTravelData != null) ? GameStates.sTravelData.mHomeWorld : GameStates.GetCurrentWorldName(true));
-                    GameStates.sEditOtherWorldData.mOrigWorld = GameUtils.GetCurrentWorld();
-                    if (GameStates.sEditOtherWorldData.mSaveName.Contains(".world"))
+                    EditOtherWorldDataEx editOtherWorldData = new EditOtherWorldDataEx();
+                    editOtherWorldData.mWorldIStartedEditingInName = GameStates.GetCurrentWorldName(true);
+                    editOtherWorldData.mHasAFamilyBeenSelectedAtHome = (GameStates.sTravelData != null || Sim.ActiveActor != null);
+                    editOtherWorldData.mSaveName = ((GameStates.sTravelData != null) ? GameStates.sTravelData.mSaveName : GameStates.sLoadFileName);
+                    editOtherWorldData.mHomeWorldName = ((GameStates.sTravelData != null) ? GameStates.sTravelData.mHomeWorld : GameStates.GetCurrentWorldName(true));
+                    editOtherWorldData.mOrigWorld = GameUtils.GetCurrentWorld();
+                    if (editOtherWorldData.mSaveName.Contains(".world"))
                     {
-                        GameStates.sEditOtherWorldData.mSaveName = "NotSet.sims3";
+                        editOtherWorldData.mSaveName = "NotSet.sims3";
                     }
+                    editOtherWorldData.mTravelHouseIsActiveHouse = (GameStates.sTravelData != null && GameStates.sTravelData.mTravelHouse == Household.ActiveHousehold);
+                    GameStates.sEditOtherWorldData = editOtherWorldData;
                 }
                 GameStates.sEditOtherWorldData.mState = ((worldToEdit == WorldName.Undefined) ? GameStates.EditOtherWorldData.EditOtherWorldState.EditHomeWorld : GameStates.EditOtherWorldData.EditOtherWorldState.EditOtherWorld);
                 GameStates.sEditOtherWorldData.mDestWorld = worldToEdit;
@@ -2289,6 +2296,22 @@ namespace NRaas.TravelerSpace.Helpers
             finally
             {
                 TravelUtil.PlayerMadeTravelRequest = false;
+            }
+        }
+
+        public static void NullEditTownDataDataIfEditingOriginalStartingWorld()
+        {
+            if (GameStates.sEditOtherWorldData != null && GameStates.GetCurrentWorldName(true) == GameStates.sEditOtherWorldData.mWorldIStartedEditingInName)
+            {
+                EditOtherWorldDataEx editOtherTownData = GameStates.sEditOtherWorldData as EditOtherWorldDataEx;
+                if (editOtherTownData != null)
+                {
+                    if (GameStates.HasTravelData && editOtherTownData.mTravelHouseIsActiveHouse)
+                    {
+                        GameStates.sTravelData.mTravelHouse = Household.ActiveHousehold;
+                    }
+                }
+                GameStates.sEditOtherWorldData = null;
             }
         }
     }

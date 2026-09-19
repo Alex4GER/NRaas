@@ -438,7 +438,7 @@ namespace NRaas.TravelerSpace.States
                     // We must stop the travel actions from running if the homeworld is an EA vacation world
                     WorldData.SetVacationWorld(true, false);
 
-                    GameStates.NullEditTownDataDataIfEditingOriginalStartingWorld();
+                    GameStatesEx.NullEditTownDataDataIfEditingOriginalStartingWorld();
                     try
                     {
                         if (GameUtils.IsAnyTravelBasedWorld())
