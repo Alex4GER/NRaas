@@ -180,7 +180,7 @@ namespace NRaas.TravelerSpace.States
                 msg += Common.NewLine + "FileName: " + GameStates.LoadFileName;
                 Traveler.InsanityWriteLog(msg);
 
-                if (!GameStates.IsEditingOtherTown)
+                if (!GameStates.IsMovingWorlds && !GameStates.IsEditingOtherTown)
                 {
                     try
                     {
