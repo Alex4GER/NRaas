@@ -78,6 +78,7 @@
     <Compile Include="..\NRaas\Common.cs">
       <Link>CommonSpace\Common.cs</Link>
     </Compile>
+    <Compile Include="PregnancyControllerSpace\PersistedSettings.cs" />
     <Compile Include="PregnancyController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VersionStamp.cs" />
