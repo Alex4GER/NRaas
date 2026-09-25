@@ -6,7 +6,7 @@ namespace NRaas.PregnancyControllerSpace
     public class PersistedSettings
     {
     	[Tunable]
-    	public static bool kUseFatnessForMalePregnancy;
+    	public static bool kUseFatnessForMalePregnancy = true;
     	
     	public bool mUseFatnessForMalePregnancy = kUseFatnessForMalePregnancy;
     }
