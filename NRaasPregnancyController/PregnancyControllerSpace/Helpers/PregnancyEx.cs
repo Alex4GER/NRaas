@@ -74,13 +74,13 @@ namespace NRaas.PregnancyControllerSpace.Helpers
             }
         }
 
-        static float kFatnessMax = BuffMalePregnancy.kFatnessMax;
+        protected static float kFatnessMax = BuffMalePregnancy.kFatnessMax;
 
-        float mOriginalWeight;
+        protected float mOriginalWeight;
 
-        float mWeight;
+        protected float mWeight;
 
-        bool mUseFatness;
+        protected bool mUseFatness;
 
         public bool IsPaused
         {

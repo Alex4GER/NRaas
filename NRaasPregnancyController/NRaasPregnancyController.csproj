@@ -104,6 +104,10 @@
     </Compile>
     <Compile Include="PregnancyControllerSpace\Interactions\HaveBabyHomeEx.cs" />
     <Compile Include="PregnancyControllerSpace\Interactions\HaveBabyHospitalEx.cs" />
+    <Compile Include="PregnancyControllerSpace\Interactions\MaleHaveBabyHomeEx.cs" />
+    <Compile Include="PregnancyControllerSpace\Helpers\BuffAbductedEx.cs" />
+    <Compile Include="PregnancyControllerSpace\Helpers\BuffMalePregnancyEx.cs" />
+    <Compile Include="PregnancyControllerSpace\Helpers\MalePregnancy.cs" />
     <Compile Include="PregnancyControllerSpace\Helpers\PregnancyEx.cs" />
     <Compile Include="PregnancyControllerSpace\PersistedSettings.cs" />
     <Compile Include="PregnancyController.cs" />
