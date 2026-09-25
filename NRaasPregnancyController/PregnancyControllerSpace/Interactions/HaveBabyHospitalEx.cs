@@ -7,7 +7,7 @@ using Sims3.Gameplay.Autonomy;
 using Sims3.Gameplay.Interactions;
 using System;
 
-namespace NRaas.MasterControllerSpace.Interactions
+namespace NRaas.PregnancyControllerSpace.Interactions
 {
     public class HaveBabyHospitalEx : Pregnancy.HaveBabyHospital, Common.IPreLoad, Common.IAddInteraction
     {

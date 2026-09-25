@@ -14,7 +14,7 @@ using Sims3.SimIFace;
 using Sims3.UI.Controller;
 using System;
 
-namespace NRaas.MasterControllerSpace.Interactions
+namespace NRaas.PregnancyControllerSpace.Interactions
 {
     public class HaveBabyHomeEx : Pregnancy.HaveBabyHome, Common.IPreLoad, Common.IAddInteraction
     {
