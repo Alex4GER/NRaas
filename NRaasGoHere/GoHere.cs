@@ -83,7 +83,7 @@ namespace NRaas
             }
             else
             {
-                GoHere.Settings.mOrigBoatRoutingDistance = Boat.kDistanceToDestinationSoSimWillBoat;
+                Boat.kDistanceToDestinationSoSimWillBoat = Settings.mOrigBoatRoutingDistance;
             }
         }
 

@@ -83,6 +83,8 @@ namespace NRaas.GoHereSpace
         [Tunable, TunableComment("Whether to enable criteria tooltips on doors")]
         protected static bool kEnableDoorTooltips = true;
 
+        protected static float kOrigBoatRoutingDistance = Boat.kDistanceToDestinationSoSimWillBoat;
+
         [Persistable(false)]
         public bool mIgnoreLogs = true;
 
@@ -141,7 +143,8 @@ namespace NRaas.GoHereSpace
 
         public int mFilterCacheTime = FilterHelper.kFilterCacheTime;
 
-        public float mOrigBoatRoutingDistance = Boat.kDistanceToDestinationSoSimWillBoat;
+        [Persistable(false)]
+        public float mOrigBoatRoutingDistance = kOrigBoatRoutingDistance;
 
         //public Dictionary<ulong, DoorPortalComponentEx.DoorLotSettings> mDoorLotSettings = new Dictionary<ulong, DoorPortalComponentEx.DoorLotSettings>();
 
