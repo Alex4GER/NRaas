@@ -1480,14 +1480,15 @@ namespace NRaas.RegisterSpace.Tasks
 
         public class StartupTask : Common.AlarmTask
         {
-            Dictionary<Role.RoleType, List<Role>> mRoles = null;
-
             public StartupTask()
                 : base(1f, TimeUnit.Seconds)
             {
                 if (RoleManager.sRoleManager != null)
                 {
-                    mRoles = RoleManager.sRoleManager.mRoles;
+                    if (Register.Settings.mStoredRoles == null)
+                    {
+                        Register.Settings.mStoredRoles = RoleManager.sRoleManager.mRoles;
+                    }
 
                     // Intentionally bounce the EA Role Manager in the most benign way possible
                     RoleManager.sRoleManager.mRoles = new Dictionary<Role.RoleType, List<Role>>();
@@ -1505,9 +1506,10 @@ namespace NRaas.RegisterSpace.Tasks
                     sTask = Simulator.AddObject(new RoleManagerTaskEx());
                 }
 
-                if (mRoles != null)
+                if (Register.Settings.mStoredRoles != null)
                 {
-                    RoleManager.sRoleManager.mRoles = mRoles;
+                    RoleManager.sRoleManager.mRoles = Register.Settings.mStoredRoles;
+                    Register.Settings.mStoredRoles = null;
                 }
             }
         }

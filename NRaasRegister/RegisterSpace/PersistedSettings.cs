@@ -148,6 +148,8 @@ namespace NRaas.RegisterSpace
         // the stuff one has to go through because EA is so careless...
         public List<ulong> mFutureSims = new List<ulong>();        
 
+        public Dictionary<Role.RoleType, List<Role>> mStoredRoles = null;
+
         public PersistedSettings()
         {
             mPayPerRole.Add(Role.RoleType.GenericMerchant, kPayPerGenericMerchant);
