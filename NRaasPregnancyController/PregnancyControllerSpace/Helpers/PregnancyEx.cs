@@ -22,15 +22,10 @@ namespace NRaas.PregnancyControllerSpace.Helpers
 {
     public class PregnancyEx : Pregnancy
     {
-        public new class InternalHaveBabyHome : Pregnancy.InternalHaveBabyHome
+        public new class InternalHaveBabyHome : Interaction<Sim, Sim>
         {
-            public new class Definition : Pregnancy.InternalHaveBabyHome.Definition
+            public class Definition : Pregnancy.InternalHaveBabyHome.Definition
             {
-                public override string GetInteractionName(Sim a, Sim target, InteractionObjectPair interaction)
-                {
-                    return base.GetInteractionName(a, target, new InteractionObjectPair(Pregnancy.InternalHaveBabyHome.Singleton, target));
-                }
-
                 public override InteractionInstance CreateInstance(ref InteractionInstanceParameters parameters)
                 {
                     InteractionInstance result = new InternalHaveBabyHome();
@@ -39,11 +34,15 @@ namespace NRaas.PregnancyControllerSpace.Helpers
                 }
             }
 
+            public int TotalCount;
+
+            public int BabyIndex;
+
             public bool UseFatness = false;
 
             public float OriginalWeight = 0f;
 
-            public new static InteractionDefinition Singleton = new Definition();
+            public static InteractionDefinition Singleton = new Definition();
 
             public override bool Run()
             {
@@ -63,14 +62,25 @@ namespace NRaas.PregnancyControllerSpace.Helpers
 
             public override void Cleanup()
             {
+                if (this.Actor.Posture != null && this.Actor.Posture.Container != this.Target)
+                {
+                    this.Target.UnParent();
+                    this.Target.AttemptToPutInSafeLocation(true);
+                }
                 if (this.BabyIndex == this.TotalCount && !this.Actor.HasBeenDestroyed)
                 {
                     if (this.Actor.SimDescription.IsVisuallyPregnant && this.UseFatness)
                     {
                         this.Actor.SimDescription.SetBodyShape(OriginalWeight, this.Actor.SimDescription.Fitness);
                     }
+                    this.Actor.SimDescription.SetPregnancy(0f);
                 }
                 base.Cleanup();
+            }
+
+            public override ThumbnailKey GetIconKey()
+            {
+                return new ThumbnailKey(new ResourceKey(Pregnancy.InternalHaveBabyHome.kIconNameHash, 796721156u, 0u), (ThumbnailSize)1);
             }
         }
 

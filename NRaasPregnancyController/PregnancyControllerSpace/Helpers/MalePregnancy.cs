@@ -122,6 +122,14 @@ namespace NRaas.PregnancyControllerSpace.Helpers
             }
         }
 
+        public new bool IsPaused
+        {
+            get
+            {
+                return false;
+            }
+        }
+
         public new float OriginalWeight
         {
             get
@@ -264,12 +272,12 @@ namespace NRaas.PregnancyControllerSpace.Helpers
 
         public static MalePregnancy Start(Sim man)
         {
-            AgingManager.Singleton.CancelAgingAlarmsForSim(man.SimDescription.AgingState);
-            MalePregnancy p = null;
-            if (man.IsHuman && man.IsMale)
+            if (!man.IsHuman || !man.IsMale)
             {
-                p = new MalePregnancy(man);
+                return null;
             }
+            AgingManager.Singleton.CancelAgingAlarmsForSim(man.SimDescription.AgingState);
+            MalePregnancy p = new MalePregnancy(man);
             p.PreggersAlarm = man.AddAlarmRepeating(1f, TimeUnit.Hours, p.HourlyCallback, 1f, TimeUnit.Hours, "Hourly Pregnancy Update Alarm", AlarmType.AlwaysPersisted);
             man.SimDescription.Pregnancy = p;
 
